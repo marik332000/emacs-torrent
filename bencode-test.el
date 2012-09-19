@@ -20,9 +20,9 @@
 
 (ert-deftest bdecode-dict ()
   (should (equal (bdecode-string "de") '()))
-  (should (equal (bdecode-string "d3:foo3:bare") '(("foo" . "bar"))))
-  (should (equal (bdecode-string "d5:helloi5ee") '(("hello" . 5))))
-  (should (equal (bdecode-string "d0:d3:fooi0eee") '(("" ("foo" . 0))))))
+  (should (equal (bdecode-string "d3:foo3:bare") '((:foo . "bar"))))
+  (should (equal (bdecode-string "d5:helloi5ee") '((:hello . 5))))
+  (should (equal (bdecode-string "d0:d3:fooi0eee") '((: (:foo . 0))))))
 
 (ert-deftest bencode--int ()
   (should (string= (bencode--int -0) "i0e"))
@@ -41,8 +41,8 @@
   (should (string= (bencode--list [2 ["bar" -3]]) "li2el3:bari-3eee")))
 
 (ert-deftest bencode--dict ()
-  (should (string= (bencode--dict '(("foo" . 5) ("bar" . "baz")))
+  (should (string= (bencode--dict '((:foo . 5) (:bar . "baz")))
                    "d3:bar3:baz3:fooi5ee"))
   (should (string= (bencode--dict '()) "de"))
-  (should (string= (bencode--dict '(("foo" . [1 2 "bar"])))
+  (should (string= (bencode--dict '((:foo . [1 2 "bar"])))
                    "d3:fooli1ei2e3:baree")))

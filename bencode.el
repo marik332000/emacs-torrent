@@ -68,7 +68,8 @@
     (values   . ,(lambda (match) (vconcat (vector (car match)) (cadr match))))
     (end-list . ,(lambda (end) []))
     (dict     . ,#'cadr)
-    (entry    . ,(apply-partially #'apply #'cons))
+    (entry    . ,(lambda (match)
+                   (cons (intern (concat ":" (car match))) (cadr match))))
     (entries  . ,(apply-partially #'apply #'cons))
     (end-dict . ,(lambda (end) ())))
   "Functions to convert parsed bencoding into a nice s-exp.")
@@ -94,7 +95,9 @@
 
 (defun bencode--dict (dict)
   (labels ((dict-sort (a b) (string< (car a) (car b)))
-           (paircode (p) (concat (bencode--string (car p)) (bencode (cdr p)))))
+           (key-name (key) (substring (symbol-name key) 1))
+           (paircode (p) (concat (bencode--string (key-name (car p)))
+                                 (bencode (cdr p)))))
     (let ((sdict (sort (copy-list dict) #'dict-sort)))
       (concat "d" (mapconcat #'paircode sdict "") "e"))))
 

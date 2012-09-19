@@ -1,3 +1,6 @@
+;; emacs -Q -batch -L . -l bencode-test.el -f ert-run-tests-batch
+
+(require 'bencode)
 (require 'ert)
 
 (ert-deftest bdecode-int ()

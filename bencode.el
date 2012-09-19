@@ -1,3 +1,25 @@
+;;; bencode.el --- bencode library
+
+;; This is free and unencumbered software released into the public domain.
+
+;;; Commentary:
+
+;; This library can convert between s-expressions and bencode. The
+;; s-expressions are limited to integers, strings, vectors (bencode
+;; list), and alists (bencode dict).
+
+;; * `bdecode-*' -- decode a bencoding
+;; * `bencode'   -- encode an s-expression
+
+;; Examples:
+
+;; (bdecode-string "li10e3:fooe")    =>  [10 "foo"]
+;; (bdecode-string "d3:bari-100ee")  =>  (("bar" . -100))
+
+;; Requires the recursive descent parser library, rdp.
+
+;;; Code:
+
 (require 'rdp)
 (eval-when-compile (require 'cl))
 
@@ -75,3 +97,7 @@
            (paircode (p) (concat (bencode--string (car p)) (bencode (cdr p)))))
     (let ((sdict (sort (copy-list dict) #'dict-sort)))
       (concat "d" (mapconcat #'paircode sdict "") "e"))))
+
+(provide 'bencode)
+
+;;; bencode.el ends here

@@ -33,7 +33,7 @@
 (ert-deftest bencode--string ()
   (should (string= (bencode--string "hello") "5:hello"))
   (should (string= (bencode--string "") "0:"))
-  (should (string= (bencode--string "�") "3:�")))
+  (should (string= (bencode--string "❄") "3:❄")))
 
 (ert-deftest bencode--list ()
   (should (string= (bencode--list [5 "foo"]) "li5e3:fooe"))

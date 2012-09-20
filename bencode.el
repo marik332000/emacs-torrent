@@ -85,7 +85,7 @@
   (format "i%de" int))
 
 (defun bencode--string (string)
-  (concat (number-to-string (string-bytes string)) ":" string))
+  (format "%d:%s" (string-bytes string) string))
 
 (defun bencode--list (list)
   (concat "l" (mapconcat #'bencode list "") "e"))

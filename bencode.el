@@ -75,16 +75,14 @@
 
 (defun bencode (sexp)
   "Encode an s-expression into a bencoded string."
-  (cond ((integerp sexp) (bencode--int sexp))
+  (cond ((numberp sexp) (bencode--int sexp))
         ((stringp sexp) (bencode--string sexp))
         ((listp sexp)   (bencode--dict sexp))
         ((vectorp sexp) (bencode--list sexp))
         (t (signal 'wrong-type-argument sexp))))
 
 (defun bencode--int (int)
-  (if (integerp int)
-      (concat "i" (number-to-string int) "e")
-    (signal 'wrong-type-argument `(integerp ,int))))
+  (format "i%de" int))
 
 (defun bencode--string (string)
   (concat (number-to-string (string-bytes string)) ":" string))

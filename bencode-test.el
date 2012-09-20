@@ -28,7 +28,7 @@
   (should (string= (bencode--int -0) "i0e"))
   (should (string= (bencode--int 102) "i102e"))
   (should (string= (bencode--int -42) "i-42e"))
-  (should-error (bencode--int 11.5) :type 'wrong-type-argument))
+  (should (string= (bencode--int 11.0) "i11e")))
 
 (ert-deftest bencode--string ()
   (should (string= (bencode--string "hello") "5:hello"))
